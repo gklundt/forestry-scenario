@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+component "User" as c0
+component "Client Agent" as c1
+component Application as c2
+component API as c3
+component Data as c4
+
+c0 -> c1
+c1 -> c2
+c2 -> c3
+c3 -> c4
+
+
+
+@enduml

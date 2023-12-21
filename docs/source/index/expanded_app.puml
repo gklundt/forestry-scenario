@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+
+component "Tenants" as c0 <<user>>
+component "Clients" as c1 <<client>>
+component "Capabilities" as c2 <<application>>
+component "APIs" as c3 <<api>>
+component "Persistence & Events" as c4 <<data>>
+
+c0 --> c1
+c1 --> c2
+c2 --> c3
+c3 --> c4
+
+note right of c0
+"Tenants" provides for logical
+partitioning of users within
+accounts and organizations.
+end note
+
+note right of c1
+Client Agents allows for cross-platform application
+development and establishes differences between native
+and web applications.
+end note
+
+note right of c2
+"Capabilities" better represents the separation of logical application
+domains.  This separation should allow for composition of features, capabilities,
+and components independent of the API domains and the clients used by the tenants.
+end note
+
+note right of c3
+"APIs" represent the boundaries of domain driven design.  Each API exposes paths
+and methods to manage resources within the domain boundaries.  These management
+methods include basic CRUD operations exposed as HTTP methods as well as workflow
+transition links and sub-resources when updating state is not sufficient to represent
+intended workflow transitions for a resource.
+end note
+
+note right of c4
+"Persistence" better encapsulates the stored state of resources across domains.  Persistence
+can be implemented as stored data structures or as dynamic event
+end note
+
+@enduml

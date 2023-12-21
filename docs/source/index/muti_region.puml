@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant "Client\n" as p0
+participant "Cloudfront\nCDN" as p1
+participant "Lambda\nRouting Logic" as p2
+participant "Regional\nAPI Gateway" as p3
+participant "Lambda\nHandler" as p4
+participant "Localized\nRead Data" as p5
+participant "Global\nWrite Data" as p6
+
+activate p0
+p0 -> p1 : Browse to App/Resource
+activate p1
+p1 -> p2 : Determine Region
+activate p2
+p1 <-- p2 : Region URI
+deactivate p2
+p0 <-- p1 : Redirect
+deactivate p1
+p0 -> p3 : Request Resource
+activate p3
+p3 -> p4 : Invoke Handler
+activate p4
+opt write
+p4 -> p6 : Write Data (CQRS Implementation)
+activate p6
+p6 -> p5 : Replicate
+activate p5
+p6 <-- p5 : Complete Transaction
+deactivate p5
+p4 <-- p6 : Complete Transaction
+deactivate p6
+end opt
+p4 -> p5 : Get Data
+activate p5
+p4 <-- p5 : Data
+deactivate p5
+p3 <-- p4 : Data
+deactivate p4
+p0 <-- p3 : Resource
+deactivate p3
+deactivate p0
+
+
+@enduml

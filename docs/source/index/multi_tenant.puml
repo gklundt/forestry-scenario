@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant "Client\nAgent" as p1
+participant "App\n" as p2
+participant "Context\nService" as p4
+participant "Resource\nService" as p5
+participant "Identity\nProvider" as p3
+
+activate p1
+p1 -> p2 : Route to Resource Management
+activate p2
+p2 -> p4 : GET Context (token)
+activate p4
+p4 -> p3 : Authorize
+activate p3
+p4 <-- p3 : token
+deactivate p3
+p2 <-- p4 : 200 OK + Context
+deactivate p4
+p2 -> p5 : Request Resource (token + context)
+activate p5
+p5 -> p3 : Authorize
+activate p3
+p5 <-- p3 : Token
+deactivate p3
+p5 -> p5 : Use context to\nperform authorized\nactions
+p2 <-- p5 : Return Resource(s)
+deactivate p5
+p2 --> p1 : Render App
+deactivate p2
+deactivate p1
+
+
+
+
+
+
+
+
+
+@enduml

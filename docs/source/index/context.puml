@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant "Client\nAgent" as p1
+participant "App\n" as p2
+participant "Identity\nProvider" as p3
+participant "Context\nService" as p4
+
+activate p1
+p1 -> p2 : Route to Application
+activate p2
+p2 -> p3 : Authenticate
+activate p3
+p2 <-- p3 : Token
+deactivate p3
+p2 -> p4 : POST Context (token)
+activate p4
+p4 -> p3 : Authorize
+activate p3
+p4 <-- p3 : token
+deactivate p3
+p4 -> p4 : Create and Cache\nClaims/Context Graph
+p2 <-- p4 : 200 OK
+deactivate p4
+p2 --> p1 : Render App
+deactivate p2
+deactivate p1
+
+
+
+
+
+
+
+
+
+@enduml
